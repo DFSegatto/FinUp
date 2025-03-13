@@ -20,10 +20,9 @@ class User {
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
             $stmt->execute();
-            return true;
+            return $stmt;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
-            return false;
         }
     }
 }
