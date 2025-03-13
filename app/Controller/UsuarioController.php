@@ -20,7 +20,8 @@ class UsuarioController {
             if($this->usuarioModel->buscarUsuarioPorCPF($cpf)) {
                 throw new \Exception("CPF já cadastrado");
             }
-            return $this->usuarioModel->criarUsuario($cpf, $nome, $email, $password);
+
+            echo json_encode($this->usuarioModel->criarUsuario($cpf, $nome, $email, $password));
         } catch (\Exception $e) {
             echo "Error: " . $e->getMessage();
         }
