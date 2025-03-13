@@ -25,4 +25,16 @@ class Usuario {
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function buscarUsuarioPorCPF($cpf) {
+        try {
+            $sql = "SELECT * FROM usuarios WHERE cpf = :cpf";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':cpf', $cpf);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }
