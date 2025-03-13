@@ -1,20 +1,41 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
 class Database {
-    private $db_host = 'localhost';
-    private $db_user = 'root';
-    private $db_pass = 'root';
-    private $db_name = 'finup';
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
+    public $conn;
+
+    public function __construct() {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+        $dotenv->load();
+
+        $this->host = $_ENV['DB_HOST'];
+        $this->db_name = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASSWORD'];
+    }
 
     public function getConnection() {
+        $this->conn = null;
+
         try {
-            $conn = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_user, $this->db_pass);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
+            $this->conn = new PDO(
+                "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+                $this->username,
+                $this->password
+            );
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            echo "Erro na conexão: " . $e->getMessage();
         }
 
-        return $conn;
+        return $this->conn;
     }
 }
 
