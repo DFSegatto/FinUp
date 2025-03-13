@@ -4,14 +4,14 @@ namespace App\Model;
 
 use PDOException;
 
-class User {
+class Usuario {
     private $conn;
 
     public function __construct($conn) {
         $this->conn = $conn;
     }
 
-    public function createUser($cpf, $nome, $email, $password) {
+    public function criarUsuario($cpf, $nome, $email, $password) {
         try {
             $sql = "INSERT INTO usuarios (CPF, nome, email, password) VALUES (:CPF, :nome, :email, :password)";
             $stmt = $this->conn->prepare($sql);
