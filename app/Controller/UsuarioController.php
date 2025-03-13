@@ -12,9 +12,17 @@ class UsuarioController {
     }
 
     public function criarUsuario($cpf, $nome, $email, $password) {
-        if(empty($cpf) || empty($nome) || empty($email) || empty($password)) {
-            throw new \Exception("Todos os campos são obrigatórios");
+        try {
+            if(empty($cpf) || empty($nome) || empty($email) || empty($password)) {
+                throw new \Exception("Todos os campos são obrigatórios");
+            }
+
+            if($this->usuarioModel->buscarUsuarioPorCPF($cpf)) {
+                throw new \Exception("CPF já cadastrado");
+            }
+            return $this->usuarioModel->criarUsuario($cpf, $nome, $email, $password);
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
-        return $this->usuarioModel->criarUsuario($cpf, $nome, $email, $password);
     }
 }
