@@ -4,15 +4,15 @@
     </head>
     <body>
         <h1>Cadastro de Usuário</h1>
-        <form action="app/Controller/UsuarioController.php" method="post" onsubmit="return validarFormulario()">
+        <form id="formCadastro" onsubmit="return validarFormulario()">
             <label for="cpf">CPF:</label>
             <input type="text" name="cpf" id="cpf" required>
             <label for="nome">Nome:</label>
             <input type="text" name="nome" id="nome" required>
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" required>
-            <label for="password">Senha:</label>
-            <input type="password" name="password" id="password" required>
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
             <button type="submit">Cadastrar</button>
         </form>
     </body>
@@ -44,5 +44,23 @@
 
             return true;
         }
+
+        formCadastro.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const response = await fetch('/usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cpf, nome, email, senha })
+            })
+            const data = await response.json();
+            if(response.ok) {
+                alert('Usuário cadastrado com sucesso');
+            } else {
+                alert(data.error);
+            }
+        })
     </script>
 </html>
