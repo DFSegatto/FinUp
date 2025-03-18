@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use App\Controller\UsuarioController;
 use App\Router\Router;
 
 header('Content-Type: application/json');
